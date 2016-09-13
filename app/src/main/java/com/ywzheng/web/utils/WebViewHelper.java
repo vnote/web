@@ -27,15 +27,21 @@ public class WebViewHelper {
 
         mProgressBar = progressBar;
         WebSettings mSettings = webView.getSettings();
-        mSettings.setJavaScriptEnabled(true);//设置WebView属性，能够执行Javascript脚本
+
+        //设置WebView属性，能够执行Javascript脚本
+        mSettings.setJavaScriptEnabled(true);
+
+        // 保留缩放功能但是隐藏缩放控件
         mSettings.setSupportZoom(true);
+        mSettings.setBuiltInZoomControls(true);
+        mSettings.setDisplayZoomControls(false);
+
         mSettings.setAllowFileAccess(true);//设置
         mSettings.setLoadWithOverviewMode(true);
         mSettings.setDefaultTextEncodingName("UTF-8");
         mSettings.setNeedInitialFocus(false);// 禁止webview上面控件获取焦点(黄色边框)
         mSettings.setDomStorageEnabled(true);//使用localStorage则必须打开
         mSettings.setBlockNetworkImage(false);// 首先阻塞图片，让图片不显示,页面加载好以后，在放开图片：
-        mSettings.setBuiltInZoomControls(true);// 设置支持缩放
         mSettings.setSupportMultipleWindows(false);// 设置同一个界面
         mSettings.setJavaScriptCanOpenWindowsAutomatically(true);//支持通过js打开新的窗口
         mSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
