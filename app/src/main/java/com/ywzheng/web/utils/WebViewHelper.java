@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -13,6 +14,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by yongwei on 2016/9/13.
@@ -36,7 +39,17 @@ public class WebViewHelper {
         mSettings.setBuiltInZoomControls(true);
         mSettings.setDisplayZoomControls(false);
 
-        mSettings.setAllowFileAccess(true);//设置
+        // 设置可以访问文件
+        mSettings.setAllowFileAccess(true);
+        // 启用数据库
+        mSettings.setDatabaseEnabled(true);
+        String dir = context.getApplicationContext()
+                .getDir("database", MODE_PRIVATE).getPath();
+        // 启用地理定位
+        mSettings.setGeolocationEnabled(true);
+        // 设置定位的数据库路径
+        mSettings.setGeolocationDatabasePath(dir);
+
         mSettings.setLoadWithOverviewMode(true);
         mSettings.setDefaultTextEncodingName("UTF-8");
         mSettings.setNeedInitialFocus(false);// 禁止webview上面控件获取焦点(黄色边框)
@@ -58,6 +71,20 @@ public class WebViewHelper {
             //优先加载缓存
             webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
+
+        //webview设置长按监听
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        if (Build.VERSION.SDK_INT >= 19) {
+            webView.getSettings().setLoadsImagesAutomatically(true);
+        } else {
+            webView.getSettings().setLoadsImagesAutomatically(false);
+        }
+
         webView.loadUrl(url);
     }
 
