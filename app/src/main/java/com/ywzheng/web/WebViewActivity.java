@@ -1,5 +1,7 @@
 package com.ywzheng.web;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -21,11 +23,17 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.webView);
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        String url="http://www.jianshu.com/users/fdb2c33b32ea/latest_articles";
-        WebViewHelper.init(this, mWebView, mProgressBar,url);
+
+
+        WebViewHelper.init(this, mWebView, mProgressBar,getIntent().getStringExtra("url"));
 
     }
 
+    public static void launch(Context context,String url) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("url",url);
+        context.startActivity(intent);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
